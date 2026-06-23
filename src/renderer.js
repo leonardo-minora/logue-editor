@@ -1,6 +1,4 @@
 const shell = document.querySelector(".app-shell");
-const leftPane = document.getElementById("left-pane");
-const rightPane = document.getElementById("right-pane");
 const divider = document.getElementById("divider");
 const preview = document.getElementById("preview");
 const searchInput = document.getElementById("search-input");
@@ -52,33 +50,30 @@ function setLeftPaneWidth(percentage) {
 
 function clearHiddenLayouts() {
   shell.classList.remove("layout-left-hidden", "layout-right-hidden");
-  divider.hidden = false;
-  leftPane.hidden = false;
-  rightPane.hidden = false;
+  updateLayoutControls();
 }
 
-function syncDividerVisibility() {
+function updateLayoutControls() {
   const leftHidden = shell.classList.contains("layout-left-hidden");
   const rightHidden = shell.classList.contains("layout-right-hidden");
-  divider.hidden = leftHidden && rightHidden;
+  divider.hidden = leftHidden || rightHidden;
+  toggleLeftButton.textContent = leftHidden ? "Mostrar editor" : "Ocultar editor";
+  toggleRightButton.textContent = rightHidden ? "Mostrar visualizador" : "Ocultar visualizador";
 }
 
 function togglePane(side) {
-  const className = side === "left" ? "layout-left-hidden" : "layout-right-hidden";
-  shell.classList.toggle(className);
+  const targetClass = side === "left" ? "layout-left-hidden" : "layout-right-hidden";
+  const oppositeClass = side === "left" ? "layout-right-hidden" : "layout-left-hidden";
+  const isHidden = shell.classList.contains(targetClass);
 
-  leftPane.hidden = shell.classList.contains("layout-left-hidden") && shell.classList.contains("layout-right-hidden");
-  rightPane.hidden = shell.classList.contains("layout-right-hidden") && shell.classList.contains("layout-left-hidden");
-
-  if (!shell.classList.contains("layout-left-hidden")) {
-    leftPane.hidden = false;
+  if (isHidden) {
+    shell.classList.remove(targetClass);
+  } else {
+    shell.classList.remove(oppositeClass);
+    shell.classList.add(targetClass);
   }
 
-  if (!shell.classList.contains("layout-right-hidden")) {
-    rightPane.hidden = false;
-  }
-
-  syncDividerVisibility();
+  updateLayoutControls();
   editor.refresh();
 }
 
@@ -115,7 +110,6 @@ let isDragging = false;
 
 divider.addEventListener("mousedown", () => {
   clearHiddenLayouts();
-  syncDividerVisibility();
   isDragging = true;
 });
 

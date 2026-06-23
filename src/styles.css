@@ -230,7 +230,7 @@ input {
 }
 
 .layout-left-hidden .app-body {
-  grid-template-columns: 0 var(--divider-width) minmax(0, 1fr);
+  grid-template-columns: 0 0 minmax(0, 1fr);
 }
 
 .layout-left-hidden #left-pane,
@@ -238,16 +238,8 @@ input {
   overflow: hidden;
 }
 
-.layout-left-hidden #toggle-left::after {
-  content: " (mostrar)";
-}
-
 .layout-right-hidden .app-body {
-  grid-template-columns: minmax(0, 1fr) var(--divider-width) 0;
-}
-
-.layout-right-hidden #toggle-right::after {
-  content: " (mostrar)";
+  grid-template-columns: minmax(0, 1fr) 0 0;
 }
 
 .layout-left-hidden.layout-right-hidden .app-body {
