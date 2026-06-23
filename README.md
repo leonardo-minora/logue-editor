@@ -7,3 +7,19 @@
 - **Metáfora**: o nome _logue_ é inspirado em Loguetown (a cidade do início e do fim) do anime One piece, metaforicamente o lugar onde a jornada dos códigos começa. Também faz um trocadilho sutil com log (registro/lógica).
 
 ---
+
+## Projeto inicial
+
+Estrutura inicial em Electron com:
+
+- header com usuário conectado, título e ações principais;
+- body dividido em editor e visualizador com redimensionamento;
+- editor implementado com CodeMirror;
+- visualizador implementado com Marked.
+
+## Executando localmente
+
+```bash
+npm install
+npm start
+```
