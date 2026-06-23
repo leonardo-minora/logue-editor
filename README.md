@@ -10,16 +10,4 @@
 
 ## Projeto inicial
 
-Estrutura inicial em Electron com:
-
-- header com usuário conectado, título e ações principais;
-- body dividido em editor e visualizador com redimensionamento;
-- editor implementado com CodeMirror;
-- visualizador implementado com Marked.
-
-## Executando localmente
-
-```bash
-npm install
-npm start
-```
+inicialmente temos _branchs_ para testar tecnologias e avançar para uma versão usável.
