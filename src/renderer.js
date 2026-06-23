@@ -6,6 +6,11 @@ const toggleLeftButton = document.getElementById("toggle-left");
 const toggleRightButton = document.getElementById("toggle-right");
 const resetLayoutButton = document.getElementById("reset-layout");
 const searchButton = document.getElementById("search-button");
+const loginButton = document.getElementById("login-button");
+const logoutButton = document.getElementById("logout-button");
+const profileButton = document.getElementById("profile-button");
+const playButton = document.getElementById("play-button");
+const statusMessage = document.getElementById("status-message");
 
 const initialDocument = `# Bem-vindo ao Logue
 
@@ -38,6 +43,10 @@ marked.setOptions({
   breaks: true,
   gfm: true,
 });
+
+function setStatus(message) {
+  statusMessage.textContent = message;
+}
 
 function renderPreview() {
   preview.innerHTML = marked.parse(editor.getValue());
@@ -91,16 +100,20 @@ function searchInEditor() {
   const query = searchInput.value.trim();
 
   if (!query) {
+    setStatus("Digite um termo para pesquisar.");
     editor.focus();
     return;
   }
 
   const currentSelection = editor.getCursor("to");
   let cursor = editor.getSearchCursor(query, currentSelection, { caseFold: true });
+  let wrapped = false;
 
   if (!cursor.findNext()) {
     cursor = editor.getSearchCursor(query, { line: 0, ch: 0 }, { caseFold: true });
+    wrapped = true;
     if (!cursor.findNext()) {
+      setStatus(`Nenhum resultado para "${query}".`);
       return;
     }
   }
@@ -108,6 +121,9 @@ function searchInEditor() {
   editor.setSelection(cursor.from(), cursor.to());
   editor.scrollIntoView({ from: cursor.from(), to: cursor.to() }, 80);
   editor.focus();
+  setStatus(
+    wrapped ? `Pesquisa reiniciada do início para "${query}".` : `Resultado encontrado para "${query}".`
+  );
 }
 
 let isDragging = false;
@@ -134,13 +150,17 @@ window.addEventListener("mousemove", (event) => {
 
 divider.addEventListener("keydown", (event) => {
   if (event.key === "ArrowLeft") {
+    event.preventDefault();
     setLeftPaneWidth(getCurrentPaneWidth() - 5);
     editor.refresh();
+    setStatus("Largura do editor ajustada para a esquerda.");
   }
 
   if (event.key === "ArrowRight") {
+    event.preventDefault();
     setLeftPaneWidth(getCurrentPaneWidth() + 5);
     editor.refresh();
+    setStatus("Largura do editor ajustada para a direita.");
   }
 });
 
@@ -153,8 +173,13 @@ searchInput.addEventListener("keydown", (event) => {
     searchInEditor();
   }
 });
+loginButton.addEventListener("click", () => setStatus("Fluxo de login reservado para a próxima etapa."));
+logoutButton.addEventListener("click", () => setStatus("Fluxo de logout reservado para a próxima etapa."));
+profileButton.addEventListener("click", () => setStatus("Área de perfil reservada para a próxima etapa."));
+playButton.addEventListener("click", () => setStatus("Execução reservada para a próxima etapa."));
 
 editor.on("change", renderPreview);
 
 renderPreview();
 resetLayout();
+setStatus("Layout inicial carregado.");

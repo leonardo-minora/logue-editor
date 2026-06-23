@@ -35,13 +35,14 @@
             <input id="search-input" type="search" placeholder="Pesquisar no editor" />
           </label>
           <button id="search-button" type="button" class="icon-button">Pesquisar</button>
-          <button type="button" class="icon-button">Login</button>
-          <button type="button" class="icon-button">Logout</button>
-          <button type="button" class="icon-button">Perfil</button>
-          <button type="button" class="icon-button icon-button--accent">▶ Play</button>
+          <button id="login-button" type="button" class="icon-button">Login</button>
+          <button id="logout-button" type="button" class="icon-button">Logout</button>
+          <button id="profile-button" type="button" class="icon-button">Perfil</button>
+          <button id="play-button" type="button" class="icon-button icon-button--accent">▶ Play</button>
           <button id="toggle-left" type="button" class="icon-button">Ocultar editor</button>
           <button id="toggle-right" type="button" class="icon-button">Ocultar visualizador</button>
           <button id="reset-layout" type="button" class="icon-button">Dividir 50/50</button>
+          <p id="status-message" class="status-message" role="status" aria-live="polite">Pronto.</p>
         </div>
       </header>
 
@@ -59,7 +60,7 @@
         <section id="right-pane" class="pane">
           <div class="pane-header">
             <h2>Marked</h2>
-            <span>Visualizador de texto</span>
+            <span>Visualizador Markdown</span>
           </div>
           <article id="preview" class="pane-content preview-content"></article>
         </section>
