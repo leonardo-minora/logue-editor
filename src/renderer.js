@@ -48,6 +48,10 @@ function setLeftPaneWidth(percentage) {
   shell.style.setProperty("--left-pane-width", `${bounded}%`);
 }
 
+function getCurrentPaneWidth() {
+  return parseFloat(getComputedStyle(shell).getPropertyValue("--left-pane-width"));
+}
+
 function clearHiddenLayouts() {
   shell.classList.remove("layout-left-hidden", "layout-right-hidden");
   updateLayoutControls();
@@ -130,12 +134,12 @@ window.addEventListener("mousemove", (event) => {
 
 divider.addEventListener("keydown", (event) => {
   if (event.key === "ArrowLeft") {
-    setLeftPaneWidth(parseFloat(getComputedStyle(shell).getPropertyValue("--left-pane-width")) - 5);
+    setLeftPaneWidth(getCurrentPaneWidth() - 5);
     editor.refresh();
   }
 
   if (event.key === "ArrowRight") {
-    setLeftPaneWidth(parseFloat(getComputedStyle(shell).getPropertyValue("--left-pane-width")) + 5);
+    setLeftPaneWidth(getCurrentPaneWidth() + 5);
     editor.refresh();
   }
 });
