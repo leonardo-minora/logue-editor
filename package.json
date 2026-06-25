@@ -1,0 +1,30 @@
+{
+  "name": "logue-editor",
+  "version": "1.0.0",
+  "description": "- **Público alvo**: alunos da disciplina de **Introdução a lógica e programação** - **Objetivo**: Editor de código-fonte sem auxílios e com problemas iniciais de lógica. - **Metáfora**: o nome _logue_ é inspirado em Loguetown (a cidade do início e do fim) do anime One piece, metaforicamente o lugar onde a jornada dos códigos começa. Também faz um trocadilho sutil com log (registro/lógica).",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && electron .",
+    "check": "biome check src",
+    "lint": "biome lint src",
+    "format": "biome format --write src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leonardo-minora/logue-editor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leonardo-minora/logue-editor/issues"
+  },
+  "homepage": "https://github.com/leonardo-minora/logue-editor#readme",
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.1",
+    "@types/node": "^26.0.1",
+    "electron": "^42.5.0",
+    "typescript": "^6.0.3"
+  }
+}
