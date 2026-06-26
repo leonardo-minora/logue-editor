@@ -1,0 +1,484 @@
+/* ============================================================
+   Logue Editor — Estilos principais
+   Tema escuro inspirado no VS Code
+   ============================================================ */
+
+/* ---------- Variáveis de design ---------- */
+:root {
+  --color-bg:           #1e1e1e;
+  --color-bg-header:    #252526;
+  --color-bg-panel-hdr: #2d2d30;
+  --color-bg-sidebar:   #333333;
+  --color-bg-input:     #3c3c3c;
+  --color-bg-tab:       #2d2d30;
+  --color-bg-code:      #2d2d30;
+
+  --color-border:       #3e3e42;
+  --color-border-focus: #007acc;
+
+  --color-text:         #cccccc;
+  --color-text-muted:   #969696;
+  --color-text-dim:     #6b6b6b;
+
+  --color-accent:       #0e639c;
+  --color-accent-hover: #1177bb;
+
+  --color-btn-primary:  #0e639c;
+  --color-btn-secondary:#3c3c3c;
+
+  --color-resizer:      #3e3e42;
+  --color-resizer-active: #007acc;
+
+  --header-height:      52px;
+  --panel-header-height: 36px;
+  --resizer-width:      4px;
+
+  --font-ui:    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-code:  "Consolas", "Cascadia Code", "Courier New", monospace;
+  --font-size-ui:   13px;
+  --font-size-code: 14px;
+}
+
+/* ---------- Reset e base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-ui);
+  font-size: var(--font-size-ui);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* ---------- Header fixo ---------- */
+.app-header {
+  flex-shrink: 0;
+  height: var(--header-height);
+  background: var(--color-bg-header);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 160px;
+}
+
+.app-logo {
+  color: var(--color-accent-hover);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.app-title {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--color-text);
+}
+
+.header-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.filename-input {
+  width: 220px;
+  padding: 5px 12px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  color: var(--color-text);
+  font-family: var(--font-code);
+  font-size: 12px;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.filename-input:focus {
+  border-color: var(--color-border-focus);
+}
+
+.header-right {
+  display: flex;
+  gap: 6px;
+  min-width: 160px;
+  justify-content: flex-end;
+}
+
+/* ---------- Botões ---------- */
+.btn {
+  padding: 5px 14px;
+  border: none;
+  border-radius: 4px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+  white-space: nowrap;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: var(--color-btn-primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-hover);
+}
+
+.btn-secondary {
+  background: var(--color-btn-secondary);
+  color: var(--color-text);
+}
+
+.btn-secondary:hover {
+  background: #4a4a4a;
+}
+
+/* ---------- Body principal ---------- */
+.app-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ---------- Painéis ---------- */
+.panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.panel-header {
+  flex-shrink: 0;
+  height: var(--panel-header-height);
+  background: var(--color-bg-panel-hdr);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+}
+
+.panel-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-text-muted);
+  user-select: none;
+}
+
+.panel-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: 0;
+}
+
+/* ---------- Abas (Markdown) ---------- */
+.panel-tabs {
+  display: flex;
+  gap: 3px;
+}
+
+.tab-btn {
+  padding: 3px 11px;
+  background: var(--color-bg-tab);
+  border: 1px solid transparent;
+  border-radius: 3px;
+  color: var(--color-text-muted);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+  user-select: none;
+}
+
+.tab-btn:hover {
+  color: var(--color-text);
+}
+
+.tab-btn.active {
+  background: var(--color-bg);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.tab-btn:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* ---------- Painel Markdown: área de texto ---------- */
+.markdown-textarea {
+  flex: 1;
+  width: 100%;
+  background: var(--color-bg);
+  border: none;
+  color: var(--color-text);
+  font-family: var(--font-code);
+  font-size: 13px;
+  line-height: 1.65;
+  padding: 16px 18px;
+  resize: none;
+  outline: none;
+  tab-size: 2;
+}
+
+.markdown-textarea::placeholder {
+  color: var(--color-text-dim);
+}
+
+/* ---------- Painel Markdown: prévia renderizada ---------- */
+.markdown-preview {
+  flex: 1;
+  padding: 20px 24px;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+
+/* Tipografia da prévia Markdown */
+.markdown-preview h1 {
+  font-size: 1.8em;
+  margin: 0.5em 0 0.6em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.markdown-preview h2 {
+  font-size: 1.4em;
+  margin: 1em 0 0.4em;
+  padding-bottom: 0.2em;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.markdown-preview h3 {
+  font-size: 1.15em;
+  margin: 0.9em 0 0.35em;
+}
+
+.markdown-preview h4,
+.markdown-preview h5,
+.markdown-preview h6 {
+  margin: 0.8em 0 0.3em;
+}
+
+.markdown-preview p {
+  margin: 0.7em 0;
+}
+
+.markdown-preview a {
+  color: var(--color-accent-hover);
+  text-decoration: none;
+}
+
+.markdown-preview a:hover {
+  text-decoration: underline;
+}
+
+.markdown-preview strong {
+  font-weight: 700;
+}
+
+.markdown-preview em {
+  font-style: italic;
+}
+
+.markdown-preview code {
+  font-family: var(--font-code);
+  font-size: 12.5px;
+  background: var(--color-bg-code);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.markdown-preview pre {
+  background: var(--color-bg-code);
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin: 0.9em 0;
+  overflow-x: auto;
+}
+
+.markdown-preview pre code {
+  background: none;
+  padding: 0;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.markdown-preview ul,
+.markdown-preview ol {
+  padding-left: 1.6em;
+  margin: 0.6em 0;
+}
+
+.markdown-preview li {
+  margin: 0.25em 0;
+}
+
+.markdown-preview blockquote {
+  margin: 0.9em 0;
+  padding: 4px 0 4px 14px;
+  border-left: 3px solid var(--color-accent-hover);
+  color: var(--color-text-muted);
+}
+
+.markdown-preview hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 1.2em 0;
+}
+
+.markdown-preview table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  font-size: 13px;
+}
+
+.markdown-preview th,
+.markdown-preview td {
+  border: 1px solid var(--color-border);
+  padding: 7px 12px;
+  text-align: left;
+}
+
+.markdown-preview th {
+  background: var(--color-bg-panel-hdr);
+  font-weight: 600;
+}
+
+.markdown-preview tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.markdown-preview img {
+  max-width: 100%;
+  border-radius: 4px;
+}
+
+/* ---------- Barra divisória / resizer ---------- */
+.panel-resizer {
+  flex-shrink: 0;
+  width: var(--resizer-width);
+  background: var(--color-resizer);
+  cursor: col-resize;
+  transition: background 0.15s;
+  position: relative;
+}
+
+.panel-resizer::after {
+  content: "";
+  position: absolute;
+  inset: 0 -4px;
+}
+
+.panel-resizer:hover,
+.panel-resizer.resizing {
+  background: var(--color-resizer-active);
+}
+
+/* ---------- Editor Python (CodeMirror) ---------- */
+#editor-container {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.CodeMirror {
+  flex: 1;
+  height: 100% !important;
+  font-family: var(--font-code) !important;
+  font-size: var(--font-size-code) !important;
+  line-height: 1.55 !important;
+}
+
+.CodeMirror-scroll {
+  height: 100% !important;
+}
+
+/* ---------- Informações de cursor ---------- */
+.panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cursor-info {
+  font-family: var(--font-code);
+  font-size: 11px;
+  color: var(--color-text-muted);
+  user-select: none;
+}
+
+/* ---------- Utilitário: oculto ---------- */
+.hidden {
+  display: none !important;
+}
+
+/* ---------- Scrollbars ---------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #424242;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
