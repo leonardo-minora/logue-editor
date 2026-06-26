@@ -1,8 +1,0 @@
-{
-  "name": "logue-editor",
-  "version": "0.1.0",
-  "tasks": {
-    "start": "deno run --allow-net --allow-read --allow-env --allow-ffi --unstable main.ts",
-    "serve": "deno run --allow-net --allow-read serve.ts"
-  }
-}
