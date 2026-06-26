@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logue Editor</title>
+
+    <!-- CodeMirror 5 – editor com syntax highlight para Python -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/codemirror@5.65.17/lib/codemirror.css"
+      integrity="sha384-bsaAhvdduZPAwUb7RRLRvDgtEtOsggrgjkr/EjPO1i/vdoi+DmdLaG79UOt6M5hD"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/codemirror@5.65.17/theme/monokai.css"
+      integrity="sha384-TvEldXruOSfbCQy2x7urguD4uK2Pd6WSyfNEJ6DxgYUTkxlJi/Wr3VD1x9mHwDn2"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/codemirror@5.65.17/lib/codemirror.js"
+      integrity="sha384-h5E6HK6F7I4KfPZbfR3+7ybuVpRsH49qyKqURfwydABLwQw/Td5doNVtRUpvCqYL"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/codemirror@5.65.17/mode/python/python.js"
+      integrity="sha384-HcVkwdWB4VAA451RvHXtgHgKx0HvmXKY5p1sOBHIK1IpkZJ4CnOzGULahXqEzcGX"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/codemirror@5.65.17/addon/edit/closebrackets.js"
+      integrity="sha384-pF/JiVjqZ1pMXmw6/3YCvu7PgYNcVJTxusZ7AuvTvSFR9iw74b85dWF5WYXeQ5t5"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/codemirror@5.65.17/addon/edit/matchbrackets.js"
+      integrity="sha384-VTfea43jk3cts7Fd5DbskOZKCo1P+X4qCWSv0+oIhMKaSymJL4+KZ9eC6VzkZbab"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- marked.js – renderizador de Markdown -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"
+      integrity="sha384-NNQgBjjuhtXzPmmy4gurS5X7P4uTt1DThyevz4Ua0IVK5+kazYQI1W27JHjbbxQz"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Estilos da aplicação -->
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+
+  <body>
+    <!-- ╔══════════════════════════════════════╗ -->
+    <!-- ║           HEADER FIXO               ║ -->
+    <!-- ╚══════════════════════════════════════╝ -->
+    <header class="app-header">
+      <div class="header-left">
+        <span class="app-logo" aria-hidden="true">◆</span>
+        <span class="app-title">Logue Editor</span>
+      </div>
+
+      <div class="header-center">
+        <label for="filename" class="visually-hidden">Nome do arquivo</label>
+        <input
+          type="text"
+          id="filename"
+          class="filename-input"
+          value="script.py"
+          title="Nome do arquivo"
+          spellcheck="false"
+        />
+      </div>
+
+      <div class="header-right">
+        <button class="btn btn-secondary" id="btn-new" title="Novo arquivo (Ctrl+N)">
+          Novo
+        </button>
+        <button class="btn btn-secondary" id="btn-open" title="Abrir arquivo (Ctrl+O)">
+          Abrir
+        </button>
+        <button class="btn btn-secondary" id="btn-save" title="Salvar arquivo (Ctrl+S)">
+          Salvar
+        </button>
+        <button class="btn btn-primary" id="btn-run" title="Executar código">
+          ▶ Executar
+        </button>
+      </div>
+    </header>
+
+    <!-- ╔══════════════════════════════════════╗ -->
+    <!-- ║               BODY                  ║ -->
+    <!-- ║  ┌──────────────┬────────────────┐  ║ -->
+    <!-- ║  │   Markdown   │  Editor Python │  ║ -->
+    <!-- ║  │  (esquerda)  │   (direita)    │  ║ -->
+    <!-- ║  └──────────────┴────────────────┘  ║ -->
+    <!-- ╚══════════════════════════════════════╝ -->
+    <main class="app-body">
+
+      <!-- Painel esquerdo: Visualizador de Markdown -->
+      <section class="panel panel-markdown" id="panel-markdown" aria-label="Visualizador Markdown">
+        <div class="panel-header">
+          <span class="panel-title">Visualizador Markdown</span>
+          <div class="panel-tabs" role="tablist">
+            <button
+              class="tab-btn active"
+              id="tab-source"
+              role="tab"
+              aria-selected="true"
+              aria-controls="markdown-source"
+            >
+              Fonte
+            </button>
+            <button
+              class="tab-btn"
+              id="tab-preview"
+              role="tab"
+              aria-selected="false"
+              aria-controls="markdown-preview"
+            >
+              Prévia
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-content">
+          <textarea
+            id="markdown-source"
+            class="markdown-textarea"
+            role="tabpanel"
+            aria-labelledby="tab-source"
+            placeholder="# Escreva seu Markdown aqui..."
+            spellcheck="false"
+          ></textarea>
+
+          <div
+            id="markdown-preview"
+            class="markdown-preview hidden"
+            role="tabpanel"
+            aria-labelledby="tab-preview"
+          ></div>
+        </div>
+      </section>
+
+      <!-- Barra de redimensionamento -->
+      <div
+        class="panel-resizer"
+        id="resizer"
+        role="separator"
+        aria-orientation="vertical"
+        title="Arraste para redimensionar os painéis"
+      ></div>
+
+      <!-- Painel direito: Editor de código Python -->
+      <section class="panel panel-editor" id="panel-editor" aria-label="Editor Python">
+        <div class="panel-header">
+          <span class="panel-title">Editor Python</span>
+          <div class="panel-actions">
+            <span id="cursor-pos" class="cursor-info" aria-live="polite">Ln 1, Col 1</span>
+          </div>
+        </div>
+
+        <div class="panel-content" id="editor-container">
+          <!-- O CodeMirror substitui este textarea -->
+          <textarea id="python-editor" aria-label="Editor de código Python"></textarea>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Lógica da aplicação -->
+    <script src="js/app.js"></script>
+  </body>
+</html>
